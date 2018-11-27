@@ -14,4 +14,6 @@ one two three four five six seven eight nine ten - counter)
 			(Reponer) ;Duda si hace falta
 
 )
+
+;Empezar por la accion de poner disponible y las relacionadas con el turno
 )
