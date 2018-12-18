@@ -6,7 +6,7 @@ one two three four five six seven eight nine ten - counter)
 (:predicates
 		(desbloquear ?accion - accion ?ronda - counter) ;Acciones a desbloquear en cada ronda
 		(disponible ?accion - accion) ;Acciones disponibles
-		(bloqueado ?accion - accion ?) ;Acciones bloqueadas
+		(bloqueado ?accion - accion ) ;Acciones bloqueadas
 		(nextFase ?f1 ?f2 - counter) ;Para los cambios de fase
 		(actualFase ?f - counter) ;Fase actual
 		(maxFase ?fase ?ronda - counter) ;Máximas fases por cada ronda, por si hay cosecha
@@ -15,9 +15,11 @@ one two three four five six seven eight nine ten - counter)
 		(actualRonda ?r - counter) ;Ronda actual
 		(maxRonda ?r - counter) ;Para definir la ronda final
 		(jugadaRonda ?r - counter) ;Para saber cuales hemos jugado
+		(cambiarFase) ;VARIABLE Para que se indique cuando vamos a cambiar fase y a cual
+		(fin)
 )
 
-(:functions (Almacenado ?j-jugador ?material-recurso)
+(:functions (Almacenado ?j - jugador ?material-recurso)
 			(Accion ?accion- accion)
 			(Reponer) ;Duda si hace falta
 )
@@ -26,11 +28,12 @@ one two three four five six seven eight nine ten - counter)
 (:action habilitar
          :parameters (?accion - accion) (?ronda - counter)
          :precondition (and (desbloquear ?accion ?ronda))
-         :effect (disponible ?accion))
+         :effect (and (disponible ?accion)(cambiarFase))
 )
 (:action cambioFase
-		:parameters (?f - counter) (?r - counter)
-		:vars (?nf - counter)
-		:precondition (and (not (maxFase ?f ?r)))
-		:effect (nextFase ?f ?nf)
+		:parameters (?fase - counter) (?ronda - counter)
+		:vars (?nextFase - counter) ;Next fase, para calcularlo en ejecución y pasarlo
+		:precondition (and (actualRonda ?ronda)(actualFase ?fase)(cambiarFase) (nextFase ?fase ?nextFase)(not (maxFase ?fase ?ronda)))
+		:effect (and (not (actualFase ?fase)) (actualFase ?nextFase)(fin))
+)
 )
