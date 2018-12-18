@@ -1,6 +1,6 @@
 (define (domain Agricola)
 (:requirements :strips :typing :fluents)
-(:types jugador recurso accion animal espacio almacenado guardado contador)
+(:types jugador recurso accion animal espacio almacenado guardado counter)
 (:constants jugadorUno jugadorDos - jugador
 one two three four five six seven eight nine ten - counter)
 (:predicates
@@ -18,22 +18,33 @@ one two three four five six seven eight nine ten - counter)
 		(cambiarFase) ;VARIABLE Para que se indique cuando vamos a cambiar fase y a cual
 		(fin)
 )
-
-(:functions (Almacenado ?j - jugador ?material-recurso)
-			(Accion ?accion- accion)
-			(Reponer) ;Duda si hace falta
-)
-
 ;Empezar por la accion de poner disponible y las relacionadas con el turno
 (:action habilitar
-         :parameters (?accion - accion) (?ronda - counter)
+         :parameters (?accion - accion ?ronda - counter)
          :precondition (and (desbloquear ?accion ?ronda))
          :effect (and (disponible ?accion)(cambiarFase))
 )
 (:action cambioFase
-		:parameters (?fase - counter) (?ronda - counter)
-		:vars (?nextFase - counter) ;Next fase, para calcularlo en ejecución y pasarlo
-		:precondition (and (actualRonda ?ronda)(actualFase ?fase)(cambiarFase) (nextFase ?fase ?nextFase)(not (maxFase ?fase ?ronda)))
-		:effect (and (not (actualFase ?fase)) (actualFase ?nextFase)(fin))
-)
+		:parameters (?fase - counter ?nextFase - counter ?ronda - counter ?nextRonda - counter)
+		:vars (?r - counter) ;Next fase, para calcularlo en ejecución y pasarlo
+		:precondition (and (actualRonda ?ronda)(actualFase ?fase)(cambiarFase)(nextFase ?fase ?nextFase)(nextRonda ?ronda ?nextRonda))
+		:effect
+		(and
+			(when (maxFase ?fase ?ronda)
+			(and
+				(not (actualFase ?fase))
+				(actualFase one)
+				(not (actualRonda ?ronda))
+				(actualRonda ?nextRonda)
+				(fin))
+				)
+		(when (not (maxFase ?fase ?ronda))
+				(and
+					(not (actualFase ?fase))
+					(actualFase ?nextFase)
+					(fin)
+				)
+			)
+		)
+	)
 )
