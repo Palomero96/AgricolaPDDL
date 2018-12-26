@@ -4,11 +4,13 @@
 (:constants jugadorUno jugadorDos - jugador
 	madera adobe juncal piedra cereal hortaliza comida - recurso
 	oveja cerdo vaca - animal
-one two three four five six seven eight nine ten - counter)
+	ampliacionGranja semillasCereales bosque labranza mina juncal jornalero pesca adquisicionMayor reformarCasa mercadoPorcino mercadoBovino cultivo reformasGranja mercadoOvino familiaPlanificada familiaPrecipitada semillasHortalizas canteraOriental vallado canteraOccidental siembra - accion
+one two three four five six seven eight nine ten eleven twelve thirteen fourteen - counter)
 (:predicates
 		(desbloquear ?accion - accion ?ronda - counter) ;Acciones a desbloquear en cada ronda
 		(disponible ?accion - accion) ;Acciones disponibles
-		(acumulable ?accion - accion ?recurso - recurso) ;Para las acciones que acumulan recursos, hay que ver como poner el numero
+		(acumulable ?accion - accion ?counter - counter) ;Para las acciones que acumulan recursos, hay que ver como poner el numero
+		(repuesto ?accion - accion)
 		(bloqueado ?accion - accion ) ;Acciones bloqueadas
 		(nextFase ?f1 ?f2 - counter) ;Para los cambios de fase
 		(actualFase ?f - counter) ;Fase actual
@@ -23,22 +25,30 @@ one two three four five six seven eight nine ten - counter)
 		(fin)
 )
 ;Empezar por la accion de poner disponible y las relacionadas con el turno
-(:action reponer
-         :parameters (?accion - accion ?fase - counter)
-         :vars (?rAc - recurso)
-         :precondition (and (actualFase one))
-         :effect (and (habilitar)
-				 (when (and (disponible ?accion)(acumulable ?accion ?rAc))(increase (recursoAcumulable ?rAc) 3)
-				 )
-		 )
+(:functions (acumulado ?accion - accion)(almacenRecursoJug ?r - recurso ?j - jugador))
+
+
+(:action reponer ;Accion para reponer todos los recursos 
+         :parameters (?accion - accion )
+         :vars (?counter - counter)
+         :precondition (and (actualFase two) (disponible ?accion) (acumulable ?accion ?counter) (not (repuesto ?accion)))
+         :effect ; En funcion de que recurso sea habra que sumarle una cantidad u otra
+				(and 
+				(when (acumulable ?accion one) (and (repuesto ?accion) (increase (acumulado ?accion) 1)(fin))
+				)
+				(when (acumulable ?accion two) (and (repuesto ?accion) (increase (acumulado ?accion) 2) (fin))
+				)
+				(when (acumulable ?accion three) (and (repuesto ?accion) (increase (acumulado ?accion) 3) (fin))
+				)
 	 )
+)
 
 (:action habilitar
          :parameters (?accion - accion ?ronda - counter)
          :precondition (and (habilitar)(desbloquear ?accion ?ronda))
-         :effect (and (disponible ?accion)(cambiarFase))
+         :effect (and (disponible ?accion)(cambiarFase)(not (habilitar)))
 )
-(:functions (recursoAcumulable ?r - recurso)(almacenRecursoJug ?r - recurso ?j - jugador))
+
 (:action cambioFase
 		:parameters (?fase - counter ?nextFase - counter)
 		:vars (?ronda - counter ?nextRonda - counter) ;Next fase, para calcularlo en ejecución y pasarlo
@@ -51,13 +61,13 @@ one two three four five six seven eight nine ten - counter)
 				(actualFase one)
 				(not (actualRonda ?ronda))
 				(actualRonda ?nextRonda)
-				(fin))
+				)
 				)
 		(when (not (maxFase ?fase ?ronda))
 				(and
 					(not (actualFase ?fase))
 					(actualFase ?nextFase)
-					(fin)
+					
 				)
 			)
 		)
