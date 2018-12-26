@@ -23,6 +23,6 @@
   (habilitar)
 )
 (:goal
-  (= (acumulado bosque) 3)
+  (fin)
 )
 )
