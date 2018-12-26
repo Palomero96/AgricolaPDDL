@@ -57,13 +57,13 @@
          :effect ; En funcion de que recurso sea, habra que asumarle una cantidad u otra
 				(forall (?accion)
 				(and 
-				(when (acumulable ?accion one) ((increase (acumulado ?accion) 1))
+				(when (and(disponible ?accion)(acumulable ?accion one)) ((increase (acumulado ?accion) 1))
 				)
-				(when (acumulable ?accion two) ((increase (acumulado ?accion) 2))
+				(when (and(disponible ?accion)(acumulable ?accion two) ((increase (acumulado ?accion) 2))
 				)
-				(when (acumulable ?accion three) ((increase (acumulado ?accion) 3))
+				(when (and(disponible ?accion)(acumulable ?accion three) ((increase (acumulado ?accion) 3))
 				)
-				(when (and (acumulable jornalero two) (= (acumulado ?accion) 0)) (increase (acumulado ?accion) 2)
+				(when (and (acumulable jornalero two) (= (acumulado ?accion) 0) (disponible ?accion)) (increase (acumulado ?accion) 2)
 	 			)
 				(when (and (acumulable semillasCereales one) (= (acumulado ?accion) 0)) (increase (acumulado ?accion) 1)
 	 			)
