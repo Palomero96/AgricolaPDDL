@@ -34,7 +34,7 @@
          :parameters (?accion - accion)
          :vars (?counter - counter)
          :precondition (and (actualFase two) (disponible ?accion) (acumulable ?accion ?counter) (not (repuesto ?accion)))
-         :effect ; En funcion de que recurso sea habra que asumarle una cantidad u otra
+         :effect ; En funcion de que recurso sea, habra que asumarle una cantidad u otra
 				(and 
 				(when (acumulable ?accion one) (and (repuesto ?accion) (increase (acumulado ?accion) 1))
 				)
@@ -53,7 +53,7 @@
 ;Comprobar cuando para
 (:action pararreponer
          :parameters (?accion - accion ?ronda - counter)
-         :precondition (not (and (actualFase two) (disponible ?accion) (acumulable ?accion ?counter) (not (repuesto ?accion))))
+         :precondition (acumulable ?accion ?ronda) (not (and (disponible ?accion) (repuesto ?accion)))
          :effect (fin)
 )
 
