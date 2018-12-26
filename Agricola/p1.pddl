@@ -11,6 +11,7 @@
   (maxFase three one)
   (= (almacenRecursoJug madera jugadorUno) 0)
   (= (almacenRecursoJug madera jugadorDos) 0)
+  (= (acumulado bosque) 0)
   ;Acciones disponibles desde el principio
   (disponible bosque)
 
@@ -22,6 +23,6 @@
   (habilitar)
 )
 (:goal
-  (fin)
+  (= (acumulado bosque) 3)
 )
 )

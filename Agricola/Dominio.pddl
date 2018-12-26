@@ -1,11 +1,11 @@
 (define (domain Agricola)
-(:requirements :strips :typing :fluents)
+(:requirements :strips :typing :fluents :equality)
 (:types jugador recurso accion animal espacio almacenado guardado counter)
 (:constants jugadorUno jugadorDos - jugador
 	madera adobe juncal piedra cereal hortaliza comida - recurso
 	oveja cerdo vaca - animal
 	ampliacionGranja semillasCereales bosque labranza mina juncal jornalero pesca adquisicionMayor reformarCasa mercadoPorcino mercadoBovino cultivo reformasGranja mercadoOvino familiaPlanificada familiaPrecipitada semillasHortalizas canteraOriental vallado canteraOccidental siembra - accion
-one two three four five six seven eight nine ten eleven twelve thirteen fourteen - counter)
+	one two three four five six seven eight nine ten eleven twelve thirteen fourteen - counter)
 (:predicates
 		(desbloquear ?accion - accion ?ronda - counter) ;Acciones a desbloquear en cada ronda
 		(disponible ?accion - accion) ;Acciones disponibles
@@ -29,19 +29,27 @@ one two three four five six seven eight nine ten eleven twelve thirteen fourteen
 
 
 (:action reponer ;Accion para reponer todos los recursos 
-         :parameters (?accion - accion )
+         :parameters (?accion - accion)
          :vars (?counter - counter)
          :precondition (and (actualFase two) (disponible ?accion) (acumulable ?accion ?counter) (not (repuesto ?accion)))
-         :effect ; En funcion de que recurso sea habra que sumarle una cantidad u otra
+         :effect ; En funcion de que recurso sea habra que asumarle una cantidad u otra
 				(and 
-				(when (acumulable ?accion one) (and (repuesto ?accion) (increase (acumulado ?accion) 1)(fin))
+				(when (acumulable ?accion one) (and (repuesto ?accion) (increase (acumulado ?accion) 1))
 				)
-				(when (acumulable ?accion two) (and (repuesto ?accion) (increase (acumulado ?accion) 2) (fin))
+				(when (acumulable ?accion two) (and (repuesto ?accion) (increase (acumulado ?accion) 2))
 				)
-				(when (acumulable ?accion three) (and (repuesto ?accion) (increase (acumulado ?accion) 3) (fin))
+				(when (acumulable ?accion three) (and (repuesto ?accion) (increase (acumulado ?accion) 3))
 				)
 	 )
 )
+(:action comprobar
+		:parameters (?accion - accion)
+         :precondition (and (repuesto ?accion) (= (acumulado ?accion) 3)) 
+         :effect ; En funcion de que recurso sea habra que sumarle una cantidad u otra
+		 (and (fin)(increase (acumulado ?accion) (acumulado ?accion)))
+				
+	 )
+
 
 (:action habilitar
          :parameters (?accion - accion ?ronda - counter)
