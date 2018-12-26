@@ -2,10 +2,13 @@
 (:requirements :strips :typing :fluents)
 (:types jugador recurso accion animal espacio almacenado guardado counter)
 (:constants jugadorUno jugadorDos - jugador
-one two three four five six seven eight nine ten - counter)
+	madera adobe juncal piedra cereal hortaliza comida- recurso
+	oveja cerdo vaca - animal
+one two three four five six seven eight nine ten- counter)
 (:predicates
 		(desbloquear ?accion - accion ?ronda - counter) ;Acciones a desbloquear en cada ronda
 		(disponible ?accion - accion) ;Acciones disponibles
+		(acumulable ?accion - accion ?recurso - recurso) ;Para las acciones que acumulan recursos, hay que ver como poner el numero
 		(bloqueado ?accion - accion ) ;Acciones bloqueadas
 		(nextFase ?f1 ?f2 - counter) ;Para los cambios de fase
 		(actualFase ?f - counter) ;Fase actual
@@ -24,9 +27,19 @@ one two three four five six seven eight nine ten - counter)
          :precondition (and (desbloquear ?accion ?ronda))
          :effect (and (disponible ?accion)(cambiarFase))
 )
+(:action reponer
+         :parameters (?accion - accion)
+				 :vars (?fase - counter)
+         :precondition (and (?fase 2))
+         :effect
+				 (forall (?accion - accion)
+				 		(when (and (disponible ?accion)(acumulable ?accion ?rAc) (increase (recursoAcumulable ?rAc) 3)))
+				)
+)
+(:functions (recursoAcumulable ?r - recurso)(almacenRecursoJug ?r - recurso ?j - jugador))
 (:action cambioFase
-		:parameters (?fase - counter ?nextFase - counter ?ronda - counter ?nextRonda - counter)
-		:vars (?r - counter) ;Next fase, para calcularlo en ejecución y pasarlo
+		:parameters (?fase - counter ?nextFase - counter)
+		:vars (?ronda - counter ?nextRonda - counter) ;Next fase, para calcularlo en ejecución y pasarlo
 		:precondition (and (actualRonda ?ronda)(actualFase ?fase)(cambiarFase)(nextFase ?fase ?nextFase)(nextRonda ?ronda ?nextRonda))
 		:effect
 		(and

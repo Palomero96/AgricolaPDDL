@@ -9,6 +9,9 @@
   (maxFase three one)
   (actualRonda one)
   (actualFase one)
+  (reponer bosque)
+  (= (almacenRecursoJug madera jugadorUno) 0)
+  (= (almacenRecursoJug madera jugadorDos) 0)
 )
 (:goal
   (fin)
