@@ -1,6 +1,6 @@
 (define (problem p1) ;Problema para comprobar el primer cambio de fase
 (:domain Agricola)
-(:objects labranza bosque - accion)
+(:objects ampliacionGranja lugarEncuentro semillasCereales bosque labranza mina juncal jornalero pesca adquisicionMayor reformarCasa mercadoPorcino mercadoBovino cultivo reformasGranja mercadoOvino familiaPlanificada familiaPrecipitada semillasHortalizas canteraOriental vallado canteraOccidental siembra - accion)
 (:INIT
 
   (nextFase one two)(nextFase two three)(nextFase three four)
@@ -14,12 +14,46 @@
   (= (acumulado bosque) 0)
   ;Acciones disponibles desde el principio
   (disponible bosque)
-
+  (disponible ampliacionGranja)
+  (disponible semillasCereales)
+  (disponible lugarEncuentro)
+  (disponible labranza)
+  (disponible mina)
+  (disponible jornalero)
+  (disponible juncal)
+  (disponible pesca)
+  
   ;Predicados necesarios para el operador reponer 
   (acumulable bosque three)
+  (acumulable mina one)
+  (acumulable juncal one)
+  (acumulable pesca one)
+  (acumulable mercadoBovino one)
+  (acumulable mercadoOvino one)
+  (acumulable mercadoPorcino one)
+  (acumulable canteraOccidental one)
+  (acumulable canteraOriental one)
+
+  (acumulable jornalero two)
+  (acumulable semillasCereales one)
+  (acumulable semillasHortalizas one)
 
   ;Predicados de las acciones que se van a desbloquear
-  (desbloquear labranza one)
+  (desbloquear adquisicionMayor one)
+  (desbloquear mercadoOvino two)
+  (desbloquear vallado three)
+  (desbloquear siembra four)
+  (desbloquear reformarCasa five)
+  (desbloquear familiaPlanificada six)
+  (desbloquear canteraOccidental seven)
+  (desbloquear mercadoPorcino eight)
+  (desbloquear semillasHortalizas nine)
+  (desbloquear mercadoBovino ten)
+  (desbloquear canteraOriental eleven)
+  (desbloquear cultivo twelve)
+  (desbloquear familiaPrecipitada thirteen)
+  (desbloquear reformasGranja fourteen)
+
   (habilitar)
 )
 (:goal

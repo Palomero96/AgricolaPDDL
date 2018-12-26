@@ -24,7 +24,9 @@
 		(habilitar)
 		(fin)
 )
-;Empezar por la accion de poner disponible y las relacionadas con el turno
+
+
+
 (:functions (acumulado ?accion - accion)(almacenRecursoJug ?r - recurso ?j - jugador))
 
 
@@ -40,16 +42,14 @@
 				)
 				(when (acumulable ?accion three) (and (repuesto ?accion) (increase (acumulado ?accion) 3))
 				)
-	 )
+				(when (and (acumulable jornalero two) (= (acumulado ?accion) 0)) (and (repuesto ?accion) (increase (acumulado ?accion) 2))
+	 			)
+				(when (and (acumulable semillasCereales one) (= (acumulado ?accion) 0)) (and (repuesto ?accion) (increase (acumulado ?accion) 1))
+	 			)
+				(when (and (acumulable semillasHortalizas one) (= (acumulado ?accion) 0)) (and (repuesto ?accion) (increase (acumulado ?accion) 1))
+	 			)
 )
-(:action comprobar
-		:parameters (?accion - accion)
-         :precondition (and (repuesto ?accion) (>= (acumulado ?accion) 4)) 
-         :effect ; En funcion de que recurso sea habra que sumarle una cantidad u otra
-		 (and (fin)(increase (acumulado ?accion) (acumulado ?accion)))
-				
-	 )
-
+)
 
 (:action habilitar
          :parameters (?accion - accion ?ronda - counter)
