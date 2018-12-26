@@ -22,6 +22,7 @@
 		(jugadaRonda ?r - counter) ;Para saber cuales hemos jugado
 		(cambiarFase) ;VARIABLE Para que se indique cuando vamos a cambiar fase y a cual
 		(habilitar)
+		(reponer)
 		(fin)
 )
 
@@ -50,17 +51,39 @@
 	 			)
 )
 )
+(:action reponerversiondos ;Accion para reponer todos los recursos 
+         :parameters (?accion - accion)
+         :precondition (and (actualFase two) (reponer))
+         :effect ; En funcion de que recurso sea, habra que asumarle una cantidad u otra
+				(forall (?accion)
+				(and 
+				(when (acumulable ?accion one) ((increase (acumulado ?accion) 1))
+				)
+				(when (acumulable ?accion two) ((increase (acumulado ?accion) 2))
+				)
+				(when (acumulable ?accion three) ((increase (acumulado ?accion) 3))
+				)
+				(when (and (acumulable jornalero two) (= (acumulado ?accion) 0)) (increase (acumulado ?accion) 2)
+	 			)
+				(when (and (acumulable semillasCereales one) (= (acumulado ?accion) 0)) (increase (acumulado ?accion) 1)
+	 			)
+				(when (and (acumulable semillasHortalizas one) (= (acumulado ?accion) 0)) (increase (acumulado ?accion) 1)
+	 			)
+				(fin)
+				)
+)
+)
 ;Comprobar cuando para
 (:action pararreponer
          :parameters (?accion - accion ?ronda - counter)
-         :precondition (acumulable ?accion ?ronda) (not (and (disponible ?accion) (repuesto ?accion)))
+         :precondition (and (acumulable ?accion ?ronda) (not (and (disponible ?accion) (repuesto ?accion))))
          :effect (fin)
 )
 
 (:action habilitar
          :parameters (?accion - accion ?ronda - counter)
          :precondition (and (habilitar)(desbloquear ?accion ?ronda))
-         :effect (and (disponible ?accion)(cambiarFase)(not (habilitar)))
+         :effect (and (disponible ?accion)(cambiarFase)(not (habilitar)) (reponer))
 )
 
 (:action cambioFase
