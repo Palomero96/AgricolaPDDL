@@ -54,7 +54,7 @@
 (:action pararreponer
          :parameters (?accion - accion ?ronda - counter)
          :precondition (not (and (actualFase two) (disponible ?accion) (acumulable ?accion ?counter) (not (repuesto ?accion))))
-         :effect (fin))
+         :effect (fin)
 )
 
 (:action habilitar
