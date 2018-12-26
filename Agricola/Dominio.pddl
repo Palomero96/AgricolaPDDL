@@ -44,7 +44,7 @@
 )
 (:action comprobar
 		:parameters (?accion - accion)
-         :precondition (and (repuesto ?accion) (= (acumulado ?accion) 3)) 
+         :precondition (and (repuesto ?accion) (>= (acumulado ?accion) 4)) 
          :effect ; En funcion de que recurso sea habra que sumarle una cantidad u otra
 		 (and (fin)(increase (acumulado ?accion) (acumulado ?accion)))
 				
