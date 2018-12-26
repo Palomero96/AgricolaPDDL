@@ -29,7 +29,7 @@
 
 (:functions (acumulado ?accion - accion)(almacenRecursoJug ?r - recurso ?j - jugador))
 
-
+;
 (:action reponer ;Accion para reponer todos los recursos 
          :parameters (?accion - accion)
          :vars (?counter - counter)
@@ -49,6 +49,12 @@
 				(when (and (acumulable semillasHortalizas one) (= (acumulado ?accion) 0)) (and (repuesto ?accion) (increase (acumulado ?accion) 1))
 	 			)
 )
+)
+;Comprobar cuando para
+(:action pararreponer
+         :parameters (?accion - accion ?ronda - counter)
+         :precondition (not (and (actualFase two) (disponible ?accion) (acumulable ?accion ?counter) (not (repuesto ?accion))))
+         :effect (fin))
 )
 
 (:action habilitar
