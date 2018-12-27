@@ -36,23 +36,8 @@ one two three four five six seven eight nine ten eleven twelve thirteen fourteen
   (disponible juncal)
   (disponible pesca)
   
-  ;Predicados necesarios para el operador reponer 
-  (acumulable bosque three)
-  (acumulable mina one)
-  (acumulable juncal one)
-  (acumulable pesca one)
-  (acumulable mercadoBovino one)
-  (acumulable mercadoOvino one)
-  (acumulable mercadoPorcino one)
-  (acumulable canteraOccidental one)
-  (acumulable canteraOriental one)
-
-  (acumulable jornalero two)
-  (acumulable semillasCereales one)
-  (acumulable semillasHortalizas one)
-
   ;Predicados de las acciones que se van a desbloquear
-  (desbloquear adquisicionMayor one)
+  (desbloquear semillasHortalizas one)
   (desbloquear mercadoOvino two)
   (desbloquear vallado three)
   (desbloquear siembra four)
