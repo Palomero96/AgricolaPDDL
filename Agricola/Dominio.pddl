@@ -57,7 +57,7 @@
 				(when (and (disponible semillasHortalizas) (= (acumulado semillasHortalizas) 0)) (increase (acumulado semillasHortalizas) 1))
 				(not (reponer))
 				(cambiarFase)
-				(habilitar)
+				(turno jugadorUno)
 				)
 )
 
@@ -75,6 +75,28 @@
 					(not (actualRonda ?ronda))
 					(actualRonda ?nextRonda)
 					(not (cambiarFase))
+					(habilitar)
+					(not (utilizada bosque))
+					(not (utilizada ampliacionGranja))
+					(not (utilizada semillasCereales))
+					(not (utilizada lugarEncuentro))
+					(not (utilizada labranza))
+					(not (utilizada mina))
+					(not (utilizada jornalero))
+					(not (utilizada juncal))
+					(not (utilizada pesca))
+					(not (utilizada semillasHortalizas))
+					(not (utilizada mercadoOvino))
+					(not (utilizada vallado))
+					(not (utilizada siembra))
+					(not (utilizada reformarCasa))
+					(not (utilizada canteraOccidental))
+					(not (utilizada mercadoPorcino))
+					(not (utilizada semillasHortalizas))
+					(not (utilizada mercadoBovino))
+					(not (utilizada canteraOriental))
+					(not (utilizada cultivo))
+					(not (utilizada reformasGranja))
 					)
 				)
 
@@ -89,6 +111,24 @@
 					(not (cambiarFase))
 				)
 			)
+			;Operador para cambiar de turno en caso de que un jugador
+
+
+	;Operador finalizar la fase de tres de acciones
+	(:action FinFaseTres
+	         :parameters (?jugadoractual - jugador)
+	         :vars (?jugadorsiguiente - jugador )
+	         :precondition (and (actualFase three) (= (habrestantes ?jugadoractual) 0) (turno ?jugadoractual) (= (habrestantes ?jugadorsiguiente) 0)
+
+	         )
+	         :effect
+	                 (and (not (turno ?jugadoractual))
+											(increase (habrestantes jugadorUno) (habitantes jugadorUno))
+											(increase (habrestantes jugadorDos) (habitantes jugadorDos))
+											(cambiarFase)
+	                    )
+	            )
+
 		;Para cambiar de un jugador a otro lo hará en el propio operador de la accion
 		;Necesitamos un operador para cuando un jugador tiene mas habitantes que otro
 		;Otro operador para saber cuando se han acabado los habitantes de ambos jugadores y eliminar los predicados utilizados y restablecer los habitantes utilizados
@@ -102,7 +142,11 @@
 		         )
 		         :effect
 		                 (and
-		                 (not (turno ?jugadoractual)) (turno ?jugadorsiguiente) ;Indicamos que le toca al otro jugador
+											 ;ESTE WHEN DEBE IR EN TODAS LAS ACCIONES!!!!!!!!!!!!!!
+											 (when
+												 (not (and (> (habrestantes ?jugadoractual) 0) (= (habrestantes ?jugadorsiguiente) 0)))
+		                 			(and (not (turno ?jugadoractual))(turno ?jugadorsiguiente))
+									 			) ;Indicamos que le toca al otro jugador
 		                (decrease (habrestantes ?jugadoractual) 1) ;Disminuimos el numero de habitantes
 		                ;Aumentamos los costes
 		                (increase (costeJug ?jugadoractual) 3)
