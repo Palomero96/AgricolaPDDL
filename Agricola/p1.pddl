@@ -3,13 +3,37 @@
 (:objects ampliacionGranja lugarEncuentro semillasCereales bosque labranza mina juncal jornalero pesca adquisicionMayor reformarCasa mercadoPorcino mercadoBovino cultivo reformasGranja mercadoOvino familiaPlanificada familiaPrecipitada semillasHortalizas canteraOriental vallado canteraOccidental siembra - accion
 one two three four five six seven eight nine ten eleven twelve thirteen fourteen - counter)
 (:INIT
-
   (nextFase one two)(nextFase two three)(nextFase three four)
   (actualRonda one)
   (actualFase one)
   (nextRonda one two)
-  (maxRonda two)
-  (maxFase three one)
+  (nextRonda two three)
+  (nextRonda three four)
+  (nextRonda four five)
+  (nextRonda five six)
+  (nextRonda six seven)
+  (nextRonda seven eight)
+  (nextRonda eight nine)
+  (nextRonda nine ten)
+  (nextRonda ten eleven)
+  (nextRonda eleven twelve)
+  (nextRonda twelve thirteen)
+  (nextRonda thirteen fourteen)
+  (maxRonda fourteen)
+  (maxFase one three)
+  (maxFase two three)
+  (maxFase three three)
+  (maxFase four three)
+  (maxFase five three)
+  (maxFase six three)
+  (maxFase seven three)
+  (maxFase eight three)
+  (maxFase nine three)
+  (maxFase ten three)
+  (maxFase eleven three)
+  (maxFase twelve three)
+  (maxFase thirteen three)
+  (maxFase fourteen three)
   (= (almacenRecursoJug madera jugadorUno) 0)
   (= (almacenRecursoJug madera jugadorDos) 0)
   ;Inicializamos los valores de las acciones
@@ -35,7 +59,7 @@ one two three four five six seven eight nine ten eleven twelve thirteen fourteen
   (disponible jornalero)
   (disponible juncal)
   (disponible pesca)
-  
+
   ;Predicados de las acciones que se van a desbloquear
   (desbloquear semillasHortalizas one)
   (desbloquear mercadoOvino two)
@@ -56,5 +80,4 @@ one two three four five six seven eight nine ten eleven twelve thirteen fourteen
 )
 (:goal
   (fin)
-)
 )
