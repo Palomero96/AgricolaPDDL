@@ -1,6 +1,7 @@
 (define (problem p1) ;Problema para comprobar el primer cambio de fase
 (:domain Agricola)
 (:objects ampliacionGranja lugarEncuentro semillasCereales bosque labranza mina juncal jornalero pesca adquisicionMayor reformarCasa mercadoPorcino mercadoBovino cultivo reformasGranja mercadoOvino familiaPlanificada familiaPrecipitada semillasHortalizas canteraOriental vallado canteraOccidental siembra - accion
+madera adobe junco piedra cereal hortaliza comida - recurso
 one two three four five six seven eight nine ten eleven twelve thirteen fourteen - counter)
 (:INIT
   (nextFase one two)(nextFase two three)(nextFase three four)
@@ -35,6 +36,8 @@ one two three four five six seven eight nine ten eleven twelve thirteen fourteen
   (maxFase twelve two)
   (maxFase thirteen two)
   (maxFase fourteen two)
+  (cambioTurno jugadorUno jugadorDos)
+  (cambioTurno jugadorDos jugadorUno)
   (= (almacenRecursoJug madera jugadorUno) 0)
   (= (almacenRecursoJug madera jugadorDos) 0)
   ;Inicializamos los valores de las acciones
