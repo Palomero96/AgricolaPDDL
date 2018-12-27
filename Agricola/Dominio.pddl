@@ -27,9 +27,15 @@
 
 
 (:functions (acumulado ?accion - accion)(almacenRecursoJug ?r - recurso ?j - jugador))
+;Operador para la fase uno de habilitar acciones 
+(:action habilitar
+         :parameters (?accion - accion ?ronda - counter)
+         :precondition (and (habilitar)(desbloquear ?accion ?ronda) (actualRonda ?ronda))
+         :effect (and (disponible ?accion)(cambiarFase)(not (habilitar)) (reponer))
+)
 
-
-(:action reponer ;Accion para reponer todos los recursos 
+;Operador para reponer todas las acciones que lo requieran
+(:action reponer  
          :precondition (and (actualFase two) (reponer))
          :effect ;En funcion de cual sea la accion habra que reponer un valor u otro, ademas, habra que tener en cuenta su disponibilidad y en algunos casos su valor acumulado
 				(and
@@ -51,12 +57,7 @@
 
 )
 
-(:action habilitar
-         :parameters (?accion - accion ?ronda - counter)
-         :precondition (and (habilitar)(desbloquear ?accion ?ronda) (actualRonda ?ronda))
-         :effect (and (disponible ?accion)(cambiarFase)(not (habilitar)) (reponer))
-)
-
+;Operador para cambiar de Fase
 (:action cambioFase
 		:parameters (?fase - counter ?nextFase - counter)
 		:vars (?ronda - counter ?nextRonda - counter) ;Next fase, para calcularlo en ejecución y pasarlo
