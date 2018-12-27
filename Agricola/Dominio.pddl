@@ -52,37 +52,29 @@
 )
 )
 (:action reponerversiondos ;Accion para reponer todos los recursos 
-         :parameters (?accion - accion)
          :precondition (and (actualFase two) (reponer))
          :effect ; En funcion de que recurso sea, habra que asumarle una cantidad u otra
-				(forall (?accion)
-				(and 
-				(when (and(disponible ?accion)(acumulable ?accion one)) ((increase (acumulado ?accion) 1))
-				)
-				(when (and(disponible ?accion)(acumulable ?accion two)) ((increase (acumulado ?accion) 2))
-				)
-				(when (and(disponible ?accion)(acumulable ?accion three)) ((increase (acumulado ?accion) 3))
-				)
-				(when (and (acumulable jornalero two) (= (acumulado ?accion) 0) (disponible ?accion)) (increase (acumulado ?accion) 2)
-	 			)
-				(when (and (acumulable semillasCereales one) (= (acumulado ?accion) 0)) (increase (acumulado ?accion) 1)
-	 			)
-				(when (and (acumulable semillasHortalizas one) (= (acumulado ?accion) 0)) (increase (acumulado ?accion) 1)
-	 			)
+				(and
+				(increase (acumulado bosque) 3)
+				(increase (acumulado mina) 1)
+				(increase (acumulado juncal) 1)
+				(increase (acumulado pesca) 1)
+				(when (disponible mercadoBovino) (increase (acumulado mercadoBovino) 1))
+				(when (disponible mercadoOvino) (increase (acumulado mercadoOvino) 1))
+				(when (disponible mercadoPorcino) (increase (acumulado mercadoPorcino) 1))
+				(when (disponible canteraOccidental) (increase (acumulado canteraOccidental) 1))
+				(when (disponible canteraOriental) (increase (acumulado canteraOriental) 1))
+				(when (= (acumulado jornalero) 0) (increase (acumulado jornalero) 2))
+				
+				(when (and (disponible semillasHortalizas) (= (acumulado semillasHortalizas) 0)) (increase (acumulado semillasHortalizas) 1))
 				(fin)
 				)
-)
-)
-;Comprobar cuando para
-(:action pararreponer
-         :parameters (?accion - accion ?ronda - counter)
-         :precondition (and (acumulable ?accion ?ronda) (not (and (disponible ?accion) (repuesto ?accion))))
-         :effect (fin)
+
 )
 
 (:action habilitar
          :parameters (?accion - accion ?ronda - counter)
-         :precondition (and (habilitar)(desbloquear ?accion ?ronda))
+         :precondition (and (habilitar)(desbloquear ?accion ?ronda) (actualRonda ?ronda))
          :effect (and (disponible ?accion)(cambiarFase)(not (habilitar)) (reponer))
 )
 
