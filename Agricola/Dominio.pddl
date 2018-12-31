@@ -21,12 +21,16 @@
 			(recursoAccion ?r - recurso ?accion - accion) ;Auxiliar para saber que recursos dan cada accion
 			(habilitar)
 			(reponer)
+			(labrar)
 			(fin)
 )
 
 (:functions (acumulado ?accion - accion)
             (habitantes ?jugador - jugador)
             (habrestantes ?jugador - jugador)
+						(espaciosTotales ?jugador - jugador)
+						(espaciosSiembra ?jugador - jugador)
+						(espaciosAnimales ?jugador - jugador)
             (almacenRecursoJug ?r - recurso ?j - jugador)
             (costeTotal)
             (costeJug ?jugador - jugador)
@@ -111,8 +115,29 @@
 					(not (cambiarFase))
 				)
 			)
-			;Operador para cambiar de turno en caso de que un jugador
+	;Operador para arar el campo
+	(:action ararCampo
+		:parameters (?jugadoractual - jugador)
+		:precondition (and (< (+ (espaciosSiembra ?jugadoractual) (espaciosAnimales ?jugadoractual)) (espaciosTotales ?jugadoractual)) (labrar))
+		:effect (and (increase (espaciosSiembra ?jugadoractual) 1) (not (labrar)))
+	)
 
+	;Operador para poner vallas
+	(:action vallado
+		:parameters (?accion - accion ?jugadoractual - jugador)
+		:vars (?jugadorsiguiente - jugador)
+		:precondition (and (cambioTurno ?jugadoractual ?jugadorsiguiente) (actualFase three) (disponible ?accion) (not (utilizada ?accion )) (> (habrestantes ?jugadoractual) 0)
+				 (turno ?jugadoractual) (< (+ (espaciosSiembra ?jugadoractual) (espaciosAnimales ?jugadoractual)) (espaciosTotales ?jugadoractual)) (>= (almacenRecursoJug madera ?jugadoractual) 8))
+		:effect (and
+			(increase (costeJug ?jugadoractual) 2)
+			(increase (costeTotal) 2)
+			(increase (espaciosAnimales ?jugadoractual) 1) (decrease (almacenRecursoJug madera ?jugadoractual) 8) (utilizada ?accion)
+			(when
+			(not (and (> (habrestantes ?jugadoractual) 0) (= (habrestantes ?jugadorsiguiente) 0)))
+			(and (not (turno ?jugadoractual)) (turno ?jugadorsiguiente)) ;Indicamos que le toca al otro jugador
+			)
+		)
+	)
 
 	;Operador finalizar la fase de tres de acciones
 	(:action FinFaseTres
@@ -128,7 +153,6 @@
 											(cambiarFase)
 	                    )
 	            )
-
 		;Para cambiar de un jugador a otro lo hará en el propio operador de la accion
 		;Necesitamos un operador para cuando un jugador tiene mas habitantes que otro
 		;Otro operador para saber cuando se han acabado los habitantes de ambos jugadores y eliminar los predicados utilizados y restablecer los habitantes utilizados

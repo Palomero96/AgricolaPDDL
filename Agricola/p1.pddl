@@ -21,7 +21,7 @@ one two three four five six seven eight nine ten eleven twelve thirteen fourteen
   (nextRonda twelve thirteen)
   (nextRonda thirteen fourteen)
   (nextRonda fourteen fifteen)
-  (maxRonda eight)
+  (maxRonda three)
   (maxFase one three)
   (maxFase two three)
   (maxFase three three)
@@ -76,7 +76,7 @@ one two three four five six seven eight nine ten eleven twelve thirteen fourteen
   (recursoAccion hortaliza semillasHortalizas)
 
   ;Predicados de almacenes de los jugadores
-  (= (almacenRecursoJug madera jugadorUno) 0)
+  (= (almacenRecursoJug madera jugadorUno) 8)
   (= (almacenRecursoJug junco jugadorUno) 0)
   (= (almacenRecursoJug adobe jugadorUno) 0)
   (= (almacenRecursoJug piedra jugadorUno) 0)
@@ -93,18 +93,26 @@ one two three four five six seven eight nine ten eleven twelve thirteen fourteen
 
   ;Predicados de habitantes para los jugadores
   (= (habitantes jugadorUno) 1)
-  (= (habitantes jugadorDos) 2)
+  (= (habitantes jugadorDos) 1)
   (= (habrestantes jugadorUno) 1)
-  (= (habrestantes jugadorDos) 2)
+  (= (habrestantes jugadorDos) 1)
+
+  ;Predicados de espacios de los jugadores
+  (= (espaciosTotales jugadorUno) 15)
+  (= (espaciosTotales jugadorDos) 15)
+  (= (espaciosSiembra jugadorUno) 0)
+  (= (espaciosSiembra jugadorDos) 0)
+  (= (espaciosAnimales jugadorUno) 0)
+  (= (espaciosAnimales jugadorDos) 0)
 
   ;Predicados para los costes de jugadores y costeTotal
   (= (costeTotal) 0)
   (= (costeJug jugadorUno) 0)
   (= (costeJug jugadorDos) 0)
   ;Predicados de las acciones que se van a desbloquear
-  (desbloquear adquisicionMayor one)
+  (desbloquear vallado one)
   (desbloquear mercadoOvino two)
-  (desbloquear vallado three)
+  (desbloquear adquisicionMayor three)
   (desbloquear siembra four)
   (desbloquear reformarCasa five)
   (desbloquear familiaPlanificada six)
@@ -122,4 +130,6 @@ one two three four five six seven eight nine ten eleven twelve thirteen fourteen
 (:goal
   (fin)
 )
+(:metric minimize (costeTotal))
+
 )
