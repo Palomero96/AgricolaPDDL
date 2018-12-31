@@ -29,6 +29,7 @@
             (habitantes ?jugador - jugador)
             (habrestantes ?jugador - jugador)
 						(espaciosTotales ?jugador - jugador)
+						(espaciosRestantes ?jugador - jugador)
 						(espaciosSiembra ?jugador - jugador)
 						(espaciosAnimales ?jugador - jugador)
             (almacenRecursoJug ?r - recurso ?j - jugador)
@@ -127,10 +128,11 @@
 		:parameters (?accion - accion ?jugadoractual - jugador)
 		:vars (?jugadorsiguiente - jugador)
 		:precondition (and (cambioTurno ?jugadoractual ?jugadorsiguiente) (actualFase three) (disponible ?accion) (not (utilizada ?accion )) (> (habrestantes ?jugadoractual) 0)
-				 (turno ?jugadoractual) (< (+ (espaciosSiembra ?jugadoractual) (espaciosAnimales ?jugadoractual)) (espaciosTotales ?jugadoractual)) (>= (almacenRecursoJug madera ?jugadoractual) 8))
+				 (turno ?jugadoractual) (> (espaciosRestantes ?jugadoractual) 0) (>= (almacenRecursoJug madera ?jugadoractual) 8))
 		:effect (and
 			(increase (costeJug ?jugadoractual) 2)
 			(increase (costeTotal) 2)
+			(decrease (espaciosRestantes ?jugadoractual) 1)
 			(increase (espaciosAnimales ?jugadoractual) 1) (decrease (almacenRecursoJug madera ?jugadoractual) 8) (utilizada ?accion)
 			(when
 			(not (and (> (habrestantes ?jugadoractual) 0) (= (habrestantes ?jugadorsiguiente) 0)))

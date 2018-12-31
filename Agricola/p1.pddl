@@ -100,6 +100,8 @@ one two three four five six seven eight nine ten eleven twelve thirteen fourteen
   ;Predicados de espacios de los jugadores
   (= (espaciosTotales jugadorUno) 15)
   (= (espaciosTotales jugadorDos) 15)
+  (= (espaciosRestantes jugadorUno) 15)
+  (= (espaciosRestantes jugadorDos) 15)
   (= (espaciosSiembra jugadorUno) 0)
   (= (espaciosSiembra jugadorDos) 0)
   (= (espaciosAnimales jugadorUno) 0)
