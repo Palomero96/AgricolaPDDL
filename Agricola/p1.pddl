@@ -2,6 +2,7 @@
 (:domain Agricola)
 (:objects ampliacionGranja lugarEncuentro semillasCereales bosque labranza mina juncal jornalero pesca adquisicionMayor reformarCasa mercadoPorcino mercadoBovino cultivo reformasGranja mercadoOvino familiaPlanificada familiaPrecipitada semillasHortalizas canteraOriental vallado canteraOccidental siembra - accion
 madera adobe junco piedra cereal hortaliza comida - recurso
+oveja cerdo vaca - animal
 one two three four five six seven eight nine ten eleven twelve thirteen fourteen - counter)
 (:INIT
   (nextFase one two)(nextFase two three)(nextFase three four)
@@ -21,7 +22,7 @@ one two three four five six seven eight nine ten eleven twelve thirteen fourteen
   (nextRonda twelve thirteen)
   (nextRonda thirteen fourteen)
   (nextRonda fourteen fifteen)
-  (maxRonda three)
+  (maxRonda four)
   (maxFase one three)
   (maxFase two three)
   (maxFase three three)
@@ -75,8 +76,13 @@ one two three four five six seven eight nine ten eleven twelve thirteen fourteen
   (recursoAccion cereal semillasCereales)
   (recursoAccion hortaliza semillasHortalizas)
 
+  ;Predicados auxiliares para saber que animales da cada
+  (animalAccion oveja mercadoOvino)
+  (animalAccion cerdo mercadoPorcino)
+  (animalAccion vaca mercadoBovino)
+
   ;Predicados de almacenes de los jugadores
-  (= (almacenRecursoJug madera jugadorUno) 8)
+  (= (almacenRecursoJug madera jugadorUno) 0)
   (= (almacenRecursoJug junco jugadorUno) 0)
   (= (almacenRecursoJug adobe jugadorUno) 0)
   (= (almacenRecursoJug piedra jugadorUno) 0)
@@ -90,6 +96,14 @@ one two three four five six seven eight nine ten eleven twelve thirteen fourteen
   (= (almacenRecursoJug cereal jugadorDos) 0)
   (= (almacenRecursoJug hortaliza jugadorDos) 0)
   (= (almacenRecursoJug comida jugadorDos) 0)
+
+  ;Predicados de almacenes de animales de los jugadores
+  (= (almacenAnimalJug oveja jugadorUno) 0)
+  (= (almacenAnimalJug cerdo jugadorUno) 0)
+  (= (almacenAnimalJug vaca jugadorUno) 0)
+  (= (almacenAnimalJug oveja jugadorDos) 0)
+  (= (almacenAnimalJug cerdo jugadorDos) 0)
+  (= (almacenAnimalJug vaca jugadorDos) 0)
 
   ;Predicados de habitantes para los jugadores
   (= (habitantes jugadorUno) 1)

@@ -19,6 +19,7 @@
 			(cambiarFase) ;VARIABLE Para que se indique cuando vamos a cambiar fase y a cual
 			(cambioTurno ?j1 ?j2 - jugador) ;Para saber cual es el siguiente jugador
 			(recursoAccion ?r - recurso ?accion - accion) ;Auxiliar para saber que recursos dan cada accion
+			(animalAccion ?a - animal ?accion - accion) ;Auxiliar para saber que recursos dan cada accion
 			(habilitar)
 			(reponer)
 			(labrar)
@@ -33,6 +34,7 @@
 						(espaciosSiembra ?jugador - jugador)
 						(espaciosAnimales ?jugador - jugador)
             (almacenRecursoJug ?r - recurso ?j - jugador)
+						(almacenAnimalJug ?r - animal ?j - jugador)
             (costeTotal)
             (costeJug ?jugador - jugador)
 )
@@ -117,23 +119,23 @@
 				)
 			)
 	;Operador para arar el campo
-	(:action ararCampo
-		:parameters (?jugadoractual - jugador)
-		:precondition (and (< (+ (espaciosSiembra ?jugadoractual) (espaciosAnimales ?jugadoractual)) (espaciosTotales ?jugadoractual)) (labrar))
-		:effect (and (increase (espaciosSiembra ?jugadoractual) 1) (not (labrar)))
-	)
+	;(:action ararCampo
+		;:parameters (?jugadoractual - jugador)
+		;:precondition (and (< (+ (espaciosSiembra ?jugadoractual) (espaciosAnimales ?jugadoractual)) (espaciosTotales ?jugadoractual)) (labrar))
+		;:effect (and (increase (espaciosSiembra ?jugadoractual) 1) (not (labrar)))
+	;)
 
 	;Operador para poner vallas
-	(:action vallado
-		:parameters (?accion - accion ?jugadoractual - jugador)
+	(:action ponerVallas
+		:parameters (?jugadoractual - jugador)
 		:vars (?jugadorsiguiente - jugador)
-		:precondition (and (cambioTurno ?jugadoractual ?jugadorsiguiente) (actualFase three) (disponible ?accion) (not (utilizada ?accion )) (> (habrestantes ?jugadoractual) 0)
+		:precondition (and (disponible vallado) (cambioTurno ?jugadoractual ?jugadorsiguiente) (actualFase three) (not (utilizada vallado )) (> (habrestantes ?jugadoractual) 0)
 				 (turno ?jugadoractual) (> (espaciosRestantes ?jugadoractual) 0) (>= (almacenRecursoJug madera ?jugadoractual) 8))
 		:effect (and
 			(increase (costeJug ?jugadoractual) 2)
 			(increase (costeTotal) 2)
 			(decrease (espaciosRestantes ?jugadoractual) 1)
-			(increase (espaciosAnimales ?jugadoractual) 1) (decrease (almacenRecursoJug madera ?jugadoractual) 8) (utilizada ?accion)
+			(increase (espaciosAnimales ?jugadoractual) 1) (decrease (almacenRecursoJug madera ?jugadoractual) 8) (utilizada vallado)
 			(when
 			(not (and (> (habrestantes ?jugadoractual) 0) (= (habrestantes ?jugadorsiguiente) 0)))
 			(and (not (turno ?jugadoractual)) (turno ?jugadorsiguiente)) ;Indicamos que le toca al otro jugador
@@ -159,6 +161,29 @@
 		;Necesitamos un operador para cuando un jugador tiene mas habitantes que otro
 		;Otro operador para saber cuando se han acabado los habitantes de ambos jugadores y eliminar los predicados utilizados y restablecer los habitantes utilizados
 
+		;Operador para las acciones de los animales
+		(:action AccionesdeAnimales
+		         :parameters (?accion - accion ?jugadoractual - jugador)
+		         :vars (?jugadorsiguiente - jugador ?animal - animal)
+		         :precondition (and (actualFase three) (disponible ?accion) (not (utilizada ?accion )) (> (habrestantes ?jugadoractual) 0)
+		              (turno ?jugadoractual) (> (acumulado ?accion) 0) (cambioTurno ?jugadoractual ?jugadorsiguiente) (animalAccion ?animal ?accion)
+		         )
+		         :effect
+		                 (and
+											 ;ESTE WHEN DEBE IR EN TODAS LAS ACCIONES!!!!!!!!!!!!!!
+											 (when
+												 (not (and (> (habrestantes ?jugadoractual) 0) (= (habrestantes ?jugadorsiguiente) 0)))
+		                 			(and (not (turno ?jugadoractual))(turno ?jugadorsiguiente))
+									 			) ;Indicamos que le toca al otro jugador
+		                (decrease (habrestantes ?jugadoractual) 1) ;Disminuimos el numero de habitantes
+		                ;Aumentamos los costes
+		                (increase (costeJug ?jugadoractual) 3)
+		                (increase (costeTotal) 3)
+		                (increase (almacenAnimalJug ?animal ?jugadoractual) (acumulado ?accion))
+		                (decrease (acumulado ?accion) (acumulado ?accion))
+		                (utilizada ?accion)
+		         )
+		)
 		;Operador para las acciones de los recursos
 		(:action AccionesdeRecursos
 		         :parameters (?accion - accion ?jugadoractual - jugador)
