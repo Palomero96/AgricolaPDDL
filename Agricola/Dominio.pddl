@@ -165,7 +165,7 @@
 		(:action AccionesdeAnimales
 		         :parameters (?accion - accion ?jugadoractual - jugador)
 		         :vars (?jugadorsiguiente - jugador ?animal - animal)
-		         :precondition (and (actualFase three) (disponible ?accion) (not (utilizada ?accion )) (> (habrestantes ?jugadoractual) 0)
+		         :precondition (and (> (espaciosAnimales ?jugadoractual) 0)(actualFase three) (disponible ?accion) (not (utilizada ?accion )) (> (habrestantes ?jugadoractual) 0)
 		              (turno ?jugadoractual) (> (acumulado ?accion) 0) (cambioTurno ?jugadoractual ?jugadorsiguiente) (animalAccion ?animal ?accion)
 		         )
 		         :effect
