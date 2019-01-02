@@ -17,12 +17,10 @@
 			(actualRonda ?r - counter) ;Ronda actual
 			(maxRonda ?r - counter) ;Para definir la ronda final
 			(cambiarFase) ;VARIABLE Para que se indique cuando vamos a cambiar fase y a cual
-			(cambioTurno ?j1 ?j2 - jugador) ;Para saber cual es el siguiente jugador
 			(recursoAccion ?r - recurso ?accion - accion) ;Auxiliar para saber que recursos dan cada accion
 			(animalAccion ?a - animal ?accion - accion) ;Auxiliar para saber que recursos dan cada accion
 			(habilitar)
 			(reponer)
-			(labrar)
 			(fin)
 )
 
