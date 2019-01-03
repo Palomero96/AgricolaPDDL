@@ -19,6 +19,7 @@
 			(cambiarFase) ;VARIABLE Para que se indique cuando vamos a cambiar fase y a cual
 			(recursoAccion ?r - recurso ?accion - accion) ;Auxiliar para saber que recursos dan cada accion
 			(animalAccion ?a - animal ?accion - accion) ;Auxiliar para saber que recursos dan cada accion
+			(cambioTurno ?jugadoractual - jugador ?jugadorsiguiente - jugador)
 			(habilitar)
 			(reponer)
 			(fin)
@@ -132,6 +133,7 @@
 		:effect (and
 			(increase (costeJug ?jugadoractual) 2)
 			(increase (costeTotal) 2)
+			(decrease (habrestantes ?jugadoractual) 1)
 			(decrease (espaciosRestantes ?jugadoractual) 1)
 			(increase (espaciosAnimales ?jugadoractual) 1) (decrease (almacenRecursoJug madera ?jugadoractual) 8) (utilizada vallado)
 			(when
@@ -144,7 +146,7 @@
 	;Operador finalizar la fase de tres de acciones
 	(:action FinFaseTres
 	         :parameters (?jugadoractual - jugador)
-	         :vars (?jugadorsiguiente - jugador )
+	         :vars (?jugadorsiguiente - jugador)
 	         :precondition (and (actualFase three) (= (habrestantes ?jugadoractual) 0) (turno ?jugadoractual) (= (habrestantes ?jugadorsiguiente) 0)
 
 	         )
@@ -175,8 +177,11 @@
 									 			) ;Indicamos que le toca al otro jugador
 		                (decrease (habrestantes ?jugadoractual) 1) ;Disminuimos el numero de habitantes
 		                ;Aumentamos los costes
-		                (increase (costeJug ?jugadoractual) 3)
-		                (increase (costeTotal) 3)
+		                (increase (costeJug ?jugadoractual) 1)
+		                (increase (costeTotal) 1)
+										(decrease (espaciosAnimales ?jugadoractual) 1)
+										(when(<= (acumulado ?accion) 2) (increase (almacenAnimalJug ?animal ?jugadoractual) (acumulado ?accion)))
+										(when(> (acumulado ?accion) 2) (increase (almacenAnimalJug ?animal ?jugadoractual) 2))
 		                (increase (almacenAnimalJug ?animal ?jugadoractual) (acumulado ?accion))
 		                (decrease (acumulado ?accion) (acumulado ?accion))
 		                (utilizada ?accion)
@@ -198,8 +203,8 @@
 									 			) ;Indicamos que le toca al otro jugador
 		                (decrease (habrestantes ?jugadoractual) 1) ;Disminuimos el numero de habitantes
 		                ;Aumentamos los costes
-		                (increase (costeJug ?jugadoractual) 3)
-		                (increase (costeTotal) 3)
+		                (increase (costeJug ?jugadoractual) 5)
+		                (increase (costeTotal) 5)
 		                (increase (almacenRecursoJug ?recurso ?jugadoractual) (acumulado ?accion))
 		                (decrease (acumulado ?accion) (acumulado ?accion))
 		                (utilizada ?accion)

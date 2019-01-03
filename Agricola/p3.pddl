@@ -22,8 +22,8 @@ one two three four five six seven eight nine ten eleven twelve thirteen fourteen
   (nextRonda twelve thirteen)
   (nextRonda thirteen fourteen)
   (nextRonda fourteen fifteen)
-  (maxRonda one)
-  (maxFase one two)
+  (maxRonda three)
+  (maxFase one three)
   (maxFase two three)
   (maxFase three three)
   (maxFase four three)
@@ -107,9 +107,9 @@ one two three four five six seven eight nine ten eleven twelve thirteen fourteen
 
   ;Predicados de habitantes para los jugadores
   (= (habitantes jugadorUno) 1)
-  (= (habitantes jugadorDos) 1)
+  (= (habitantes jugadorDos) 2)
   (= (habrestantes jugadorUno) 1)
-  (= (habrestantes jugadorDos) 1)
+  (= (habrestantes jugadorDos) 2)
 
   ;Predicados de espacios de los jugadores
   (= (espaciosTotales jugadorUno) 15)
@@ -126,8 +126,8 @@ one two three four five six seven eight nine ten eleven twelve thirteen fourteen
   (= (costeJug jugadorUno) 0)
   (= (costeJug jugadorDos) 0)
   ;Predicados de las acciones que se van a desbloquear
-  (desbloquear vallado one)
-  (desbloquear mercadoOvino two)
+  (desbloquear cultivo one)
+  (desbloquear reformasGranja two)
   (desbloquear adquisicionMayor three)
   (desbloquear siembra four)
   (desbloquear reformarCasa five)
