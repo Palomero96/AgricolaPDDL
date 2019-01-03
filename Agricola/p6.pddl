@@ -22,11 +22,7 @@ one two three four five six seven eight nine ten eleven twelve thirteen fourteen
   (nextRonda twelve thirteen)
   (nextRonda thirteen fourteen)
   (nextRonda fourteen fifteen)
-<<<<<<< HEAD
   (maxRonda four)
-=======
-  (maxRonda five)
->>>>>>> 8cde883acbb152e40c2dcfe3894f38479bf5c63b
   (maxFase one three)
   (maxFase two three)
   (maxFase three three)
