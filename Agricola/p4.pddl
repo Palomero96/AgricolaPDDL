@@ -22,8 +22,8 @@ one two three four five six seven eight nine ten eleven twelve thirteen fourteen
   (nextRonda twelve thirteen)
   (nextRonda thirteen fourteen)
   (nextRonda fourteen fifteen)
-  (maxRonda one)
-  (maxFase one two)
+  (maxRonda three)
+  (maxFase one three)
   (maxFase two three)
   (maxFase three three)
   (maxFase four three)
@@ -82,7 +82,7 @@ one two three four five six seven eight nine ten eleven twelve thirteen fourteen
   (animalAccion vaca mercadoBovino)
 
   ;Predicados de almacenes de los jugadores
-  (= (almacenRecursoJug madera jugadorUno) 0)
+  (= (almacenRecursoJug madera jugadorUno) 8)
   (= (almacenRecursoJug junco jugadorUno) 0)
   (= (almacenRecursoJug adobe jugadorUno) 0)
   (= (almacenRecursoJug piedra jugadorUno) 0)
