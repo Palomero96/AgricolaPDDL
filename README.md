@@ -1,2 +1,2 @@
-# Agricola_PDDL
-Segunda parte de la práctica de la asignatura Ingenieria del Conocimiento. En este repositorio crearemos una version del juego Agricola en el lenguaje PDDL.
+# Agricola PDDL
+This repository contains practices from Knowledge Engineering code in PDDL about the board game Agricola.
